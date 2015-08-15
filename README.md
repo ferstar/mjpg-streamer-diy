@@ -14,28 +14,31 @@ sudo make DESTDIR=/usr/local install
 
 ## My way:
 
-`vi /usr/local/bin/streamer.sh`
-
 ```
-#!/bin/bash
-screen -dm /usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so -n -e 3 -f 30 -r 800x448" -o "/usr/local/lib/output_http.so -w /usr/local/www"
+screen -dmS videocap /usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so -n -e 4 -f 60 -r 1024x576" -o "/usr/local/lib/output_http.so -w /usr/local/www"
 ```
-
-`chmod +x /usr/local/bin/streamer.sh` and run
 
 the output info looks like this:
 
 ```
  i: Using V4L2 device.: /dev/video0
- i: Desired Resolution: 800 x 448
- i: Frames Per Second.: 30
+ i: Desired Resolution: 1024 x 576
+ i: Frames Per Second.: 60
  i: Format............: MJPEG
- i: Drop Frames Except: 3
+ i: Drop Frames Except: 4
  o: www-folder-path...: /usr/local/www/
  o: HTTP TCP port.....: 8080
  o: username:password.: disabled
  o: commands..........: enabled
 ```
+
+at this capture setting, the bitrate of output mjpg stream is `2000kbps` or above(less than `3000kbps`)
+
+works very well on my rspi2.
+
+> load average: 0.00, 0.01, 0.05
+
+> CPU load: < 2% (1.3±0.3)%
 
 ## Addition
 
@@ -50,79 +53,15 @@ Listing available frame formats for device video0:
 Pixel format: YUYV (YUV 4:2:2 (YUYV); MIME type: video/x-raw-yuv)
   Frame size: 640x480
     Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 160x120
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 176x144
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 320x176
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 320x240
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 352x288
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 432x240
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 544x288
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 640x360
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 752x416
-    Frame rates: 25, 20, 15, 10, 5
-  Frame size: 800x448
-    Frame rates: 20, 15, 10, 5
-  Frame size: 800x600
-    Frame rates: 20, 15, 10, 5
-  Frame size: 864x480
-    Frame rates: 20, 15, 10, 5
-  Frame size: 960x544
-    Frame rates: 15, 10, 5
-  Frame size: 960x720
-    Frame rates: 10, 5
-  Frame size: 1024x576
-    Frame rates: 10, 5
-  Frame size: 1184x656
-    Frame rates: 10, 5
-  Frame size: 1280x720
-    Frame intervals: 2/15, 1/5
+  ...
+    ...
   Frame size: 1280x960
     Frame intervals: 2/15, 1/5
 Pixel format: MJPG (MJPEG; MIME type: image/jpeg)
   Frame size: 640x480
     Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 160x120
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 176x144
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 320x176
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 320x240
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 352x288
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 432x240
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 544x288
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 640x360
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 752x416
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 800x448
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 800x600
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 864x480
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 960x544
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 960x720
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 1024x576
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 1184x656
-    Frame rates: 30, 25, 20, 15, 10, 5
-  Frame size: 1280x720
-    Frame rates: 30, 25, 20, 15, 10, 5
+  ...
+    ...
   Frame size: 1280x960
     Frame rates: 30, 25, 20, 15, 10, 5
 ```
