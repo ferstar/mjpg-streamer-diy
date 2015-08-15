@@ -15,6 +15,8 @@ sudo make DESTDIR=/usr/local install
 
 ## My way:
 
+The YUV format ate too much memory and cpu time, so I chose MJPEG with `-e` parameter instead.
+
 ```
 screen -dmS videocap /usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so -n -e 4 -f 60 -r 1024x576" -o "/usr/local/lib/output_http.so -w /usr/local/www"
 ```
