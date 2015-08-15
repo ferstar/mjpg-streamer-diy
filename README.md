@@ -3,6 +3,7 @@
 ## Sources:
 1. forked from https://svn.code.sf.net/p/mjpg-streamer/code
 2. patch from https://www.raspberrypi.org/forums/viewtopic.php?f=28&t=109352
+3. usage of `screen` command https://www.ibm.com/developerworks/cn/linux/l-cn-screen/
 
 ## Usage:
 
@@ -44,7 +45,7 @@ works very well on my rspi2.
 
 You could change the resolution with the parameters after `-r` but use `uvcdynctrl -f` to see which one is build-in
 
-## C-270 logitech camera
+here are my C-270 logitech camera‘s build-in resolution and fps value:
 
 `uvcdynctrl -f` output:
 
