@@ -7,8 +7,8 @@
 ## Usage:
 
 ```
+cd mjpg-streamer
 make USE_LIBV4L2=true clean all
-sudo make install
 sudo make DESTDIR=/usr/local install
 ```
 
@@ -18,7 +18,7 @@ sudo make DESTDIR=/usr/local install
 
 ```
 #!/bin/bash
-screen -dm /usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so -n -f 15 -r 800x448" -o "/usr/local/lib/output_http.so -w /usr/local/www"
+screen -dm /usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so -n -e 3 -f 30 -r 800x448" -o "/usr/local/lib/output_http.so -w /usr/local/www"
 ```
 
 `chmod +x /usr/local/bin/streamer.sh` and run
@@ -28,8 +28,9 @@ the output info looks like this:
 ```
  i: Using V4L2 device.: /dev/video0
  i: Desired Resolution: 800 x 448
- i: Frames Per Second.: 15
+ i: Frames Per Second.: 30
  i: Format............: MJPEG
+ i: Drop Frames Except: 3
  o: www-folder-path...: /usr/local/www/
  o: HTTP TCP port.....: 8080
  o: username:password.: disabled
