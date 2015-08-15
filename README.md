@@ -18,7 +18,9 @@ sudo make DESTDIR=/usr/local install
 The YUV format ate too much memory and cpu time, so I chose MJPEG with `-e` parameter instead.
 
 ```
-screen -dmS videocap /usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so -n -e 4 -f 60 -r 1024x576" -o "/usr/local/lib/output_http.so -w /usr/local/www"
+screen -dmS videocap /usr/local/bin/mjpg_streamer \
+    -i "/usr/local/lib/input_uvc.so -n -e 4 -f 60 -r 1024x576" \
+    -o "/usr/local/lib/output_http.so -w /usr/local/www"
 ```
 
 the output info looks like this:
@@ -67,4 +69,22 @@ Pixel format: MJPG (MJPEG; MIME type: image/jpeg)
     ...
   Frame size: 1280x960
     Frame rates: 30, 25, 20, 15, 10, 5
+```
+`lsusb` output:
+
+```
+...
+Bus 001 Device 006: ID 046d:0825 Logitech, Inc. Webcam C270
+...
+```
+
+make mjpg-streamer auto start if USB camera is in:
+`vi /etc/rc.local` add this before `exit 0`
+```
+lsusb | grep 046d:0825 > /dev/null
+if [ $?==0 ]; then
+    screen -dmS videocap /usr/local/bin/mjpg_streamer \
+    -i "/usr/local/lib/input_uvc.so -n -e 4 -f 60 -r 1024x576" \
+    -o "/usr/local/lib/output_http.so -w /usr/local/www"
+fi
 ```
