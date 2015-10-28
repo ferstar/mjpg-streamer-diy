@@ -259,7 +259,6 @@ int input_init(input_parameter *param, int id)
     IPRINT("Desired Resolution: %i x %i\n", width, height);
     IPRINT("Frames Per Second.: %i\n", fps);
     IPRINT("Format............: %s\n", (format == V4L2_PIX_FMT_YUYV) ? "YUV" : "MJPEG");
-    IPRINT("Drop Frames Except: %i\n", every);
     if(format == V4L2_PIX_FMT_YUYV)
         IPRINT("JPEG Quality......: %d\n", gquality);
 
