@@ -73,7 +73,6 @@ static globals *pglobal;
 static int gquality = 80;
 static unsigned int minimum_size = 0;
 static int dynctrls = 1;
-static unsigned int every = 1;
 
 void *cam_thread(void *);
 void cam_cleanup(void *);
@@ -132,8 +131,6 @@ int input_init(input_parameter *param, int id)
             {"no_dynctrl", no_argument, 0, 0},
             {"l", required_argument, 0, 0},
             {"led", required_argument, 0, 0},
-            {"e", required_argument, 0, 0},
-            {"every_frame", required_argument, 0, 0},
             {0, 0, 0, 0}
         };
 
@@ -237,13 +234,6 @@ int input_init(input_parameter *param, int id)
         } else if ( strcmp("blink", optarg) == 0 ) {
           led = IN_CMD_LED_BLINK;
         }*/
-            break;
-
-        case 18:
-        /* e, every */
-        case 19:
-            DBG("case 18,19\n");
-            every = MAX(atoi(optarg), 1);
             break;
 
         default:
@@ -362,7 +352,6 @@ void help(void)
     " [-n | --no_dynctrl ]...: do not initalize dynctrls of Linux-UVC driver\n" \
     " [-l | --led ]..........: switch the LED \"on\", \"off\", let it \"blink\" or leave\n" \
     "                          it up to the driver using the value \"auto\"\n" \
-    " [-e | --every_frame ]..: drop all frames except numbered\n" \
     " ---------------------------------------------------------------\n\n");
 }
 
@@ -373,8 +362,6 @@ Return Value: unused, always NULL
 ******************************************************************************/
 void *cam_thread(void *arg)
 {
-
-    unsigned int every_count = 0;
 
     context *pcontext = arg;
     pglobal = pcontext->pglobal;
@@ -391,14 +378,6 @@ void *cam_thread(void *arg)
         if(uvcGrab(pcontext->videoIn) < 0) {
             IPRINT("Error grabbing frames\n");
             exit(EXIT_FAILURE);
-        }
-
-        if ( every_count < every - 1 ) {
-            DBG("dropping %d frame for every=%d\n", every_count + 1, every);
-            ++every_count;
-            continue;
-        } else {
-            every_count = 0;
         }
 
         DBG("received frame of size: %d from plugin: %d\n", pcontext->videoIn->buf.bytesused, pcontext->id);
